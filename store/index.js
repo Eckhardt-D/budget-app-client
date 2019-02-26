@@ -84,5 +84,11 @@ export const actions = {
     this.$axios.$put(`${url}expenses/${payload._id}`, payload)
     .then(() => this.$router.go('/expenses'))
     .catch(e => console.error(e))
+  },
+
+  deleteExpense(_, payload) {
+    this.$axios.$delete(`${url}expenses/${payload}`)
+    .then(() => this.$router.go('/expenses'))
+    .catch(e => console.error(e))
   }
 }

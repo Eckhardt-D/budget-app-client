@@ -6,8 +6,10 @@
     <b-collapse is-nav id="nav_collapse">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item v-if="!this.$store.state.isAuth" @click="logout">Logout</b-nav-item>
-        <b-nav-item v-if="this.$store.state.isAuth" @click="$router.push('/login')">Login</b-nav-item>
+        <b-nav-item v-if="this.$store.state.isAuth" @click="logout">Logout</b-nav-item>
+        <b-nav-item v-if="!this.$store.state.isAuth" @click="$router.push('/login')">Login</b-nav-item>
+        <b-nav-item @click="$router.push('/expenses')">View Expenses</b-nav-item>
+        <b-nav-item @click="$router.push('/categories')">View Categories</b-nav-item>
         <b-nav-item @click="$router.push('/new')">New Expense</b-nav-item>
       </b-navbar-nav>
     </b-collapse>

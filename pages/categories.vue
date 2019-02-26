@@ -9,6 +9,18 @@
         <td>{{ category.name }}</td>
         <td>{{ category.total }}</td>
       </tr>
+      <tr>
+        <td><b>Total</b></td>
+        <td>{{ categoryTotal }}</td>
+      </tr>
+      <tr>
+        <td><b>Budget</b></td>
+        <td>{{ budget.amount }}</td>
+      </tr>
+      <tr>
+        <td style="border-top: 2px solid black;"><b>{{ calcSurplus }}</b></td>
+        <td style="border-top: 2px solid black;">{{budget.amount - categoryTotal}}</td>
+      </tr>
     </table>
   </b-container>
 </template>
@@ -19,11 +31,29 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState([
-      'categories'
-    ])
+      'categories',
+      'budget'
+    ]),
+    categoryTotal() {
+      let count = 0;
+
+      this.categories.forEach(cat => {
+        count += parseFloat(cat.total)
+      })
+
+      return count
+    },
+    calcSurplus() {
+      if (parseFloat(this.categoryTotal) > parseFloat(this.budget.amount)) {
+        return 'Deficit'
+      } else {
+        return 'Surplus'
+      }
+    }
   },
   mounted() {
     this.$store.dispatch('fetchCategories');
+    this.$store.dispatch('fetchBudget')
   }
 }
 </script>

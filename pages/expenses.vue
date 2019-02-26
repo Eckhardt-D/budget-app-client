@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <table class="mt-4" width="100%">
+    <table width="100%" style="font-size: 0.9em" class="mt-4">
       <tr>
         <th>Date</th>
         <th>Name</th>
@@ -12,30 +12,36 @@
           {{ exp.created.substring(0, 10) }}
         </td>
         <td>
-          <input v-model="update.name" v-if="editMode && currentIndex === i" type="text">
-          <span v-else>{{ exp.name }}</span>
+          <span>{{ exp.name }}</span>
         </td>
         <td>
-          <select v-model="update.category" v-if="editMode && currentIndex === i" type="text">
-            <option v-for="item in categories" :key="item._id">{{ item.name }}</option>
-          </select>
-          <span v-else>{{ exp.category }}</span>
+          <span>{{ exp.category }}</span>
         </td>
         <td>
-          <input v-model="update.amount" v-if="editMode && currentIndex === i" type="text">
-          <span v-else>{{ exp.amount }}</span>
+          <span>{{ exp.amount }}</span>
         </td>
-        <button @click="sendToEdit(i)" class="mt-2 ml-2">edit</button>
+        <b-button @click="sendToEdit(i)" class="mt-2 ml-2">edit</b-button>
       </tr>
     </table>
     <b-button @click="sendUpdate" v-if="editMode" class="mt-1" variant="success">Update</b-button>
+    <b-row>
+      <b-modal ok-only ok-title="close" v-model="editMode" class="mx-auto w-75" title="Edit Expense">
+        <b-container>
+          <ExpenseForm :editData="update" mode="edit"/>
+        </b-container>
+      </b-modal>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import ExpenseForm from '@/components/ExpenseForm'
 
 export default {
+  components: {
+    ExpenseForm
+  },
   data: () => ({
     editMode: false,
     currentIndex: -1,
