@@ -18,7 +18,7 @@
         <td>{{ budget.amount }}</td>
       </tr>
       <tr>
-        <td style="border-top: 2px solid black;"><b>{{ calcSurplus }}</b></td>
+        <td style="border-top: 2px solid black;"><b>{{ difference > 0 ? 'Surplus' : 'Deficit' }}</b></td>
         <td style="border-top: 2px solid black;">{{budget.amount - categoryTotal}}</td>
       </tr>
     </table>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters} from 'vuex'
 
 export default {
   computed: {
@@ -34,22 +34,10 @@ export default {
       'categories',
       'budget'
     ]),
-    categoryTotal() {
-      let count = 0;
-
-      this.categories.forEach(cat => {
-        count += parseFloat(cat.total)
-      })
-
-      return count
-    },
-    calcSurplus() {
-      if (parseFloat(this.categoryTotal) > parseFloat(this.budget.amount)) {
-        return 'Deficit'
-      } else {
-        return 'Surplus'
-      }
-    }
+    ...mapGetters([
+      'categoryTotal',
+      'difference'
+    ])
   },
   mounted() {
     this.$store.dispatch('fetchCategories');

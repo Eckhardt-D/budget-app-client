@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   data: () => ({
@@ -45,6 +45,10 @@ export default {
       'budget',
       'expenses'
     ]),
+    ...mapGetters([
+      'difference',
+      'totalExpenses'
+    ]),
     budgetVariant() {
       if(this.difference < 0) {
         return "warning"
@@ -58,23 +62,6 @@ export default {
       } else {
         return `You still have N$${this.difference} in your budget!`
       }
-    },
-    totalExpense() {
-      let count = 0
-
-      if(this.expenses.length) {
-
-        this.expenses.forEach(exp => {
-          count += parseFloat(exp.amount)
-        })
-
-        return count
-      } else {
-        return 0
-      }
-    },
-    difference() {
-      return parseFloat(this.budget.amount) - parseFloat(this.totalExpense)
     },
     chartData() {
       return {

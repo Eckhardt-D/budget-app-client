@@ -60,15 +60,9 @@ export default {
   },
   computed: {
     ...mapState([
-      'categories'
-    ]),
-    categoryNames() {
-      let arr = []
-      if(this.categories.length > 1) {
-        this.categories.forEach(cat => arr.push(cat.name));
-      }
-      return arr
-    }
+      'categories',
+      'categoryNames'
+    ])
   },
   methods: {
     onSubmit(evt) {

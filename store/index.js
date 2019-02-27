@@ -9,7 +9,25 @@ export const state = () => ({
 })
 
 export const getters = {
+  totalExpenses: state => {
+    return state.expenses.reduce((accumulator, value) => {
+      return accumulator + value.amount
+    }, 0)    
+  },
 
+  categoryTotal: state => {
+    return state.categories.reduce((accumulator, value) => {
+      return accumulator + value.amount
+    }, 0)
+  },
+
+  categoryNames: state => {
+    return state.categories.map(item => item.name);
+  },
+
+  difference: state => {
+    return state.budget.amount - this.getters.totalExpenses
+  }
 }
 
 export const mutations = {
@@ -34,14 +52,17 @@ export const actions = {
   authenticate({commit}, {username, password}) {
     this.$axios.$post(url, { username, password })
     .then(result => {
+      let token = result.token
 
-      let token = result.token;
-      if(!token) return;
-      localStorage.setItem('budgetToken', JSON.stringify(token));
-      commit('SET_TOKEN', token);
-      this.$router.push('/');
+      if(!token) return
+
+      localStorage.setItem('budgetToken', JSON.stringify(token))
+
+      commit('SET_TOKEN', token)
+
+      this.$router.push('/')
     })
-    .catch(e => console.error(e));
+    .catch(e => console.error(e))
   },
 
   createExpense(_, payload) {
