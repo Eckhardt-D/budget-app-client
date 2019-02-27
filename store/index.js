@@ -11,13 +11,13 @@ export const state = () => ({
 export const getters = {
   totalExpenses: state => {
     return state.expenses.reduce((accumulator, value) => {
-      return accumulator + value.amount
+      return accumulator + parseFloat(value.amount)
     }, 0)    
   },
 
   categoryTotal: state => {
     return state.categories.reduce((accumulator, value) => {
-      return accumulator + value.amount
+      return parseFloat(accumulator) + parseFloat(value.total)
     }, 0)
   },
 
@@ -25,8 +25,8 @@ export const getters = {
     return state.categories.map(item => item.name);
   },
 
-  difference: state => {
-    return state.budget.amount - this.getters.totalExpenses
+  difference: (state, getters) => {
+    return state.budget.amount - getters.totalExpenses
   }
 }
 

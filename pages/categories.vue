@@ -40,7 +40,7 @@ export default {
     ])
   },
   mounted() {
-    this.$store.dispatch('fetchCategories');
+    this.$store.dispatch('fetchCategories')
     this.$store.dispatch('fetchBudget')
   }
 }
